@@ -1,0 +1,12 @@
+{
+  "name": "emisora-nueva-zelandia",
+  "version": "1.0.0",
+  "description": "Servidor de solicitudes para la Emisora Nueva Zelandia",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
