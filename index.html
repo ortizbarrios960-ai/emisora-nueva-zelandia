@@ -5,7 +5,15 @@
 <label for="dedication">💌 Dedicatoria (opcional)</label>
 <input id="dedication" maxlength="200" placeholder="Escribe tu dedicatoria">
 
-<button id="send">📻 ENVIAR SOLICITUD</button><div id="msg" class="msg"></div></form></main><aside class="card qr"><h2>📱 ESCANEA Y SOLICITA TU CANCIÓN</h2><p class="hint">El QR usa automáticamente la URL pública de esta página.</p><canvas id="qr"></canvas><button class="download" id="download">⬇️ DESCARGAR QR EN PNG</button><p id="qrnote" class="hint"></p></aside></div><footer>Feria de la Comunicación · Colegio Nueva Zelandia · Solicitudes sujetas a moderación.</footer></div><script>
+<button id="send">📻 ENVIAR SOLICITUD</button><div id="msg" class="msg"></div></form></main></section>
+<form id="form">
+...
+</form>
+</main>
+</div>
+<footer>
+...
+</footer></div><footer>Feria de la Comunicación · Colegio Nueva Zelandia · Solicitudes sujetas a moderación.</footer></div><script>
 const API_URL="https://emisora-nueva-zelandia-qi8v.onrender.com";const banned=["nazi","hitler","matar","odio","odiar","maricon","marica","puto","puta","perra","zorra","violacion","violar","terrorista","racista","xenofobia","misogino","misogina","sexista","machista"];const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();const bad=s=>banned.some(w=>norm(s).includes(w));const msg=document.querySelector('#msg');function show(t,e=false){msg.textContent=t;msg.className='msg'+(e?' err':'');msg.style.display='block'}document.querySelector('#form').onsubmit=async e=>{e.preventDefault();const song=document.querySelector('#song').value.trim(),name=document.querySelector('#name').value.trim(),dedication=document.querySelector('#dedication').value.trim();if(!song)return show('Escribe una canción y su artista.',true);if(bad(song))return show('⚠️ Esta solicitud no cumple las reglas de la emisora y no fue aceptada.',true);document.querySelector('#send').disabled=true;try{const item={song,name,dedication,createdAt:new Date().toISOString()};if(API_URL){const r=await fetch(API_URL+'/api/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});if(!r.ok)throw 0}else{const a=JSON.parse(localStorage.getItem('nz_requests')||'[]');a.push({...item,status:'pendiente'});localStorage.setItem('nz_requests',JSON.stringify(a))}e.target.reset();show('✅ ¡Solicitud enviada! Gracias por participar en nuestra emisora.')}catch{show('No pudimos enviar la solicitud. Intenta nuevamente.',true)}finally{document.querySelector('#send').disabled=false}};
-QRCode.toCanvas(document.querySelector('#qr'),location.href.split('#')[0],{width:260,margin:1,errorCorrectionLevel:'H'},err=>{if(err)console.error(err);document.querySelector('#qrnote').textContent=location.protocol==='file:'?'Publica la página para que el QR funcione desde otros celulares.':'QR listo para esta URL.'});document.querySelector('#download').onclick=()=>{const a=document.createElement('a');a.download='QR_Emisora_Nueva_Zelandia.png';a.href=document.querySelector('#qr').toDataURL('image/png');a.click()};
+
 </script></body></html>
