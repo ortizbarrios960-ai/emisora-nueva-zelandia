@@ -1,19 +1,809 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1026"><title>🎙️ Emisora Nueva Zelandia</title><script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script><style>
-:root{--bg:#080b1b;--card:#11172d;--text:#f8f9ff;--muted:#aeb6d5;--a:#8b5cf6;--b:#22d3ee;--warn:#ffd54a;--line:#2a3456}*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at 20% 0,#27326c 0,#111735 30%,var(--bg) 70%);min-height:100vh}.wrap{max-width:950px;margin:auto;padding:22px 15px 50px}.hero{text-align:center;padding:20px 0 25px}.live{display:inline-flex;gap:8px;align-items:center;background:#0d1430;border:1px solid #3a456c;padding:8px 13px;border-radius:999px;font-size:12px;font-weight:800}.dot{width:9px;height:9px;background:#ff4d6d;border-radius:50%;box-shadow:0 0 15px #ff4d6d}.hero h1{font-size:clamp(32px,8vw,58px);line-height:1;margin:20px 0 12px}.hero p{font-size:clamp(16px,3vw,20px);color:var(--muted)}.waves{height:58px;display:flex;justify-content:center;align-items:center;gap:5px}.bar{width:5px;border-radius:8px;background:linear-gradient(var(--b),var(--a));animation:p 1s infinite ease-in-out}.bar:nth-child(1){height:18px}.bar:nth-child(2){height:34px;animation-delay:.1s}.bar:nth-child(3){height:48px;animation-delay:.2s}.bar:nth-child(4){height:27px;animation-delay:.3s}.bar:nth-child(5){height:55px;animation-delay:.4s}.bar:nth-child(6){height:35px;animation-delay:.5s}.bar:nth-child(7){height:46px;animation-delay:.6s}.bar:nth-child(8){height:22px;animation-delay:.7s}@keyframes p{50%{transform:scaleY(.55);opacity:.65}}.grid{display:grid;gap:18px}.card{background:#11172dee;border:1px solid var(--line);border-radius:23px;padding:21px;box-shadow:0 18px 55px #0006}.warning{border:2px solid var(--warn);background:linear-gradient(135deg,#352d10,#181624)}.warning h2{font-size:18px;margin:0 0 10px}.warning ul{margin:0;padding-left:23px;line-height:1.85;font-weight:800}label{display:block;margin:19px 0 8px;font-weight:800}input{width:100%;padding:15px;border-radius:14px;border:1px solid #3a466c;background:#0b1026;color:white;font:inherit;outline:none}input:focus{border-color:var(--b);box-shadow:0 0 0 3px #22d3ee18}.hint{font-size:12px;color:var(--muted);margin-top:7px}button{width:100%;margin-top:20px;padding:16px;border:0;border-radius:14px;color:white;font-weight:900;font-size:16px;background:linear-gradient(100deg,var(--a),#6366f1,var(--b));cursor:pointer}.msg{display:none;margin-top:13px;padding:13px;border-radius:12px;font-weight:800;background:#0c392b;border:1px solid #28d39e}.err{background:#401823;border-color:#ff6c86;color:#ffd5dd}.qr{text-align:center}.qr canvas{background:white;padding:9px;border-radius:13px;max-width:100%}.download{background:#25304d;font-size:14px}footer{text-align:center;color:#8d96b6;font-size:12px;margin-top:20px}@media(min-width:720px){.grid{grid-template-columns:1.35fr .65fr}}
-</style></head><body><div class="wrap"><header class="hero"><div class="live"><span class="dot"></span> TRANSMISIÓN EN VIVO · 2 DE OCTUBRE</div><div class="waves"><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i></div><h1>🎙️ EMISORA NUEVA ZELANDIA</h1><p>¡Tú eliges la canción, nosotros la ponemos al aire!</p></header><div class="grid"><main class="card"><section class="warning"><h2>⚠️ IMPORTANTE:</h2><ul><li>NO canciones misóginas</li><li>NO canciones sexistas</li><li>NO canciones con xenofobia</li><li>NO canciones racistas</li><li>NO canciones machistas</li></ul></section><form id="form"><label for="song">🎵 ¿Qué canción quieres escuchar?</label><input id="song" maxlength="120" required placeholder="Nombre de la canción — Artista o cantante"><div class="hint">Las solicitudes pasan por moderación antes de salir al aire.</div><label for="name">👤 Tu nombre (opcional)</label><input id="name" maxlength="60" placeholder="Tu nombre">
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b1b">
 
-<label for="dedication">💌 Dedicatoria (opcional)</label>
-<input id="dedication" maxlength="200" placeholder="Escribe tu dedicatoria">
+<title>🎙️ Emisora Nueva Zelandia</title>
 
-<button id="send">📻 ENVIAR SOLICITUD</button><div id="msg" class="msg"></div></form></main></section>
-<form id="form">
-...
-</form>
-</main>
+<style>
+:root{
+  --bg:#070914;
+  --bg2:#0d1228;
+  --card:#11172d;
+  --card2:#151c38;
+  --text:#f8f9ff;
+  --muted:#aeb6d5;
+  --purple:#8b5cf6;
+  --blue:#22d3ee;
+  --pink:#ec4899;
+  --green:#22c55e;
+  --yellow:#ffd54a;
+  --red:#ff4d6d;
+  --line:#2a3456;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,#252c67 0%,transparent 32%),
+    radial-gradient(circle at 90% 15%,#321957 0%,transparent 30%),
+    linear-gradient(145deg,var(--bg),#090d20 50%,#070914);
+  min-height:100vh;
+}
+
+.wrap{
+  width:min(1050px,100%);
+  margin:auto;
+  padding:20px 15px 45px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  text-align:center;
+  padding:25px 5px 35px;
+}
+
+.live{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 15px;
+  border:1px solid #39456e;
+  background:#0c1228cc;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.5px;
+  box-shadow:0 8px 30px #0005;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  background:var(--red);
+  border-radius:50%;
+  box-shadow:0 0 16px var(--red);
+  animation:blink 1.2s infinite;
+}
+
+@keyframes blink{
+  50%{
+    opacity:.35;
+    transform:scale(.75);
+  }
+}
+
+.waves{
+  height:70px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  margin-top:12px;
+}
+
+.bar{
+  width:5px;
+  border-radius:10px;
+  background:linear-gradient(to top,var(--purple),var(--blue));
+  animation:p 1s infinite ease-in-out;
+  box-shadow:0 0 12px #22d3ee55;
+}
+
+.bar:nth-child(1){height:18px}
+.bar:nth-child(2){height:34px;animation-delay:.1s}
+.bar:nth-child(3){height:48px;animation-delay:.2s}
+.bar:nth-child(4){height:27px;animation-delay:.3s}
+.bar:nth-child(5){height:58px;animation-delay:.4s}
+.bar:nth-child(6){height:38px;animation-delay:.5s}
+.bar:nth-child(7){height:48px;animation-delay:.6s}
+.bar:nth-child(8){height:24px;animation-delay:.7s}
+
+@keyframes p{
+  50%{
+    transform:scaleY(.5);
+    opacity:.55;
+  }
+}
+
+.hero h1{
+  margin:8px 0 14px;
+  font-size:clamp(34px,8vw,64px);
+  line-height:.98;
+  font-weight:1000;
+  letter-spacing:-2px;
+  background:linear-gradient(100deg,#fff,var(--blue),#c084fc,var(--pink));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  margin:0 auto;
+  max-width:650px;
+  color:var(--muted);
+  font-size:clamp(16px,3vw,21px);
+  line-height:1.5;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.grid{
+  display:grid;
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(145deg,#11172df2,#0d1227f2);
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:22px;
+  box-shadow:0 20px 70px #0008;
+  backdrop-filter:blur(10px);
+}
+
+/* =========================
+   WARNING
+========================= */
+
+.warning{
+  position:relative;
+  overflow:hidden;
+  border:1px solid #806b20;
+  background:
+    radial-gradient(circle at 100% 0%,#5a4318 0%,transparent 40%),
+    linear-gradient(135deg,#29230f,#171626);
+  border-radius:19px;
+  padding:20px;
+  margin-bottom:25px;
+}
+
+.warning::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:var(--yellow);
+}
+
+.warning h2{
+  margin:0 0 12px;
+  font-size:19px;
+}
+
+.warning ul{
+  margin:0;
+  padding-left:22px;
+  line-height:1.8;
+  color:#fff6c7;
+  font-weight:750;
+}
+
+.warning li::marker{
+  color:var(--yellow);
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-title{
+  margin:0 0 5px;
+  font-size:25px;
+}
+
+.form-subtitle{
+  margin:0 0 20px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+label{
+  display:block;
+  margin:19px 0 8px;
+  font-weight:850;
+  font-size:14px;
+}
+
+input{
+  width:100%;
+  padding:16px 17px;
+  border-radius:15px;
+  border:1px solid #354164;
+  background:#080d20;
+  color:#fff;
+  font:inherit;
+  outline:none;
+  transition:.2s;
+}
+
+input::placeholder{
+  color:#727b9c;
+}
+
+input:focus{
+  border-color:var(--blue);
+  box-shadow:
+    0 0 0 3px #22d3ee12,
+    0 0 25px #22d3ee0d;
+  transform:translateY(-1px);
+}
+
+.hint{
+  margin-top:7px;
+  color:#858eae;
+  font-size:12px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:17px;
+  border:0;
+  border-radius:15px;
+  color:white;
+  font-weight:950;
+  font-size:16px;
+  letter-spacing:.3px;
+  background:linear-gradient(100deg,var(--purple),#6366f1,var(--blue));
+  box-shadow:0 12px 30px #5b5cf633;
+  cursor:pointer;
+  transition:.2s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 35px #5b5cf655;
+}
+
+button:active{
+  transform:translateY(0);
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.msg{
+  display:none;
+  margin-top:14px;
+  padding:14px 15px;
+  border-radius:13px;
+  font-weight:800;
+  background:#0b3025;
+  border:1px solid #28d39e;
+  color:#baffdf;
+}
+
+.err{
+  background:#3d1722;
+  border-color:#ff5d7b;
+  color:#ffd5dd;
+}
+
+/* =========================
+   SIDE INFO
+========================= */
+
+.info{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.info-box{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:19px;
+  background:#0b1024aa;
+}
+
+.info-icon{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.info-box h3{
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.info-box p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* =========================
+   EVENT CARD
+========================= */
+
+.event{
+  margin-top:18px;
+  padding:18px;
+  border-radius:18px;
+  background:
+    linear-gradient(135deg,#17123a,#101a35);
+  border:1px solid #3b3971;
+}
+
+.event strong{
+  display:block;
+  font-size:17px;
+  margin-bottom:5px;
+}
+
+.event span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  text-align:center;
+  color:#7f88a8;
+  font-size:12px;
+  line-height:1.6;
+  margin-top:24px;
+  padding:0 10px;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:720px){
+
+  .wrap{
+    padding-top:30px;
+  }
+
+  .grid{
+    grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
+    align-items:start;
+  }
+
+  .card{
+    padding:27px;
+  }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:500px){
+
+  .wrap{
+    padding:15px 12px 35px;
+  }
+
+  .hero{
+    padding-top:18px;
+  }
+
+  .hero h1{
+    font-size:37px;
+    letter-spacing:-1.5px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .card{
+    padding:17px;
+    border-radius:20px;
+  }
+
+  .warning{
+    padding:17px;
+  }
+
+  .warning ul{
+    font-size:13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <!-- =========================
+       ENCABEZADO
+  ========================== -->
+
+  <header class="hero">
+
+    <div class="live">
+      <span class="dot"></span>
+      TRANSMISIÓN EN VIVO · 2 DE OCTUBRE
+    </div>
+
+    <div class="waves">
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+      <i class="bar"></i>
+    </div>
+
+    <h1>🎙️ EMISORA<br>NUEVA ZELANDIA</h1>
+
+    <p>
+      ¡Tú eliges la canción, nosotros la ponemos al aire!
+    </p>
+
+  </header>
+
+
+  <!-- =========================
+       CONTENIDO PRINCIPAL
+  ========================== -->
+
+  <div class="grid">
+
+    <main class="card">
+
+      <section class="warning">
+
+        <h2>⚠️ IMPORTANTE</h2>
+
+        <ul>
+          <li>NO canciones misóginas</li>
+          <li>NO canciones sexistas</li>
+          <li>NO canciones con xenofobia</li>
+          <li>NO canciones racistas</li>
+          <li>NO canciones machistas</li>
+        </ul>
+
+      </section>
+
+
+      <form id="form">
+
+        <h2 class="form-title">
+          🎵 Pide tu canción
+        </h2>
+
+        <p class="form-subtitle">
+          Haz tu solicitud y participa en nuestra transmisión.
+        </p>
+
+
+        <label for="song">
+          🎵 ¿Qué canción quieres escuchar?
+        </label>
+
+        <input
+          id="song"
+          maxlength="120"
+          required
+          placeholder="Nombre de la canción — Artista o cantante"
+        >
+
+        <div class="hint">
+          Las solicitudes pasan por moderación antes de salir al aire.
+        </div>
+
+
+        <label for="name">
+          👤 Tu nombre <span style="color:#7f88a8">(opcional)</span>
+        </label>
+
+        <input
+          id="name"
+          maxlength="60"
+          placeholder="Tu nombre"
+        >
+
+
+        <label for="dedication">
+          💌 Dedicatoria <span style="color:#7f88a8">(opcional)</span>
+        </label>
+
+        <input
+          id="dedication"
+          maxlength="200"
+          placeholder="Escribe tu dedicatoria"
+        >
+
+
+        <button id="send" type="submit">
+          📻 ENVIAR SOLICITUD
+        </button>
+
+        <div id="msg" class="msg"></div>
+
+      </form>
+
+    </main>
+
+
+    <!-- =========================
+         INFORMACIÓN
+    ========================== -->
+
+    <aside class="card info">
+
+      <div class="info-box">
+
+        <div class="info-icon">🎙️</div>
+
+        <h3>La voz del colegio</h3>
+
+        <p>
+          Participa en la Emisora Nueva Zelandia
+          durante nuestra Feria de la Comunicación.
+        </p>
+
+      </div>
+
+
+      <div class="info-box">
+
+        <div class="info-icon">🎧</div>
+
+        <h3>¿Cómo funciona?</h3>
+
+        <p>
+          Escribe una canción, agrega tu nombre y
+          una dedicatoria si quieres. Luego envía
+          tu solicitud.
+        </p>
+
+      </div>
+
+
+      <div class="info-box">
+
+        <div class="info-icon">🛡️</div>
+
+        <h3>Moderación</h3>
+
+        <p>
+          Todas las solicitudes son revisadas antes
+          de ser seleccionadas para la transmisión.
+        </p>
+
+      </div>
+
+
+      <div class="event">
+
+        <strong>📅 Feria de la Comunicación</strong>
+
+        <span>
+          Colegio Nueva Zelandia · 2 de octubre de 2026
+        </span>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+
+  <footer>
+    Feria de la Comunicación · Colegio Nueva Zelandia<br>
+    Solicitudes sujetas a moderación.
+  </footer>
+
 </div>
-<footer>
-...
-</footer></div><footer>Feria de la Comunicación · Colegio Nueva Zelandia · Solicitudes sujetas a moderación.</footer></div><script>
-const API_URL="https://emisora-nueva-zelandia-qi8v.onrender.com";const banned=["nazi","hitler","matar","odio","odiar","maricon","marica","puto","puta","perra","zorra","violacion","violar","terrorista","racista","xenofobia","misogino","misogina","sexista","machista"];const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();const bad=s=>banned.some(w=>norm(s).includes(w));const msg=document.querySelector('#msg');function show(t,e=false){msg.textContent=t;msg.className='msg'+(e?' err':'');msg.style.display='block'}document.querySelector('#form').onsubmit=async e=>{e.preventDefault();const song=document.querySelector('#song').value.trim(),name=document.querySelector('#name').value.trim(),dedication=document.querySelector('#dedication').value.trim();if(!song)return show('Escribe una canción y su artista.',true);if(bad(song))return show('⚠️ Esta solicitud no cumple las reglas de la emisora y no fue aceptada.',true);document.querySelector('#send').disabled=true;try{const item={song,name,dedication,createdAt:new Date().toISOString()};if(API_URL){const r=await fetch(API_URL+'/api/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});if(!r.ok)throw 0}else{const a=JSON.parse(localStorage.getItem('nz_requests')||'[]');a.push({...item,status:'pendiente'});localStorage.setItem('nz_requests',JSON.stringify(a))}e.target.reset();show('✅ ¡Solicitud enviada! Gracias por participar en nuestra emisora.')}catch{show('No pudimos enviar la solicitud. Intenta nuevamente.',true)}finally{document.querySelector('#send').disabled=false}};
 
-</script></body></html>
+
+<script>
+
+/* =========================
+   CONEXIÓN CON EL SERVIDOR
+========================= */
+
+const API_URL="https://emisora-nueva-zelandia-qi8v.onrender.com";
+
+
+/* =========================
+   FILTRO DE SOLICITUDES
+========================= */
+
+const banned=[
+  "nazi",
+  "hitler",
+  "matar",
+  "odio",
+  "odiar",
+  "maricon",
+  "marica",
+  "puto",
+  "puta",
+  "perra",
+  "zorra",
+  "violacion",
+  "violar",
+  "terrorista",
+  "racista",
+  "xenofobia",
+  "misogino",
+  "misogina",
+  "sexista",
+  "machista"
+];
+
+const norm=s=>
+  String(s||"")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase();
+
+const bad=s=>
+  banned.some(w=>norm(s).includes(w));
+
+
+/* =========================
+   MENSAJES
+========================= */
+
+const msg=document.querySelector("#msg");
+
+function show(t,e=false){
+
+  msg.textContent=t;
+
+  msg.className="msg"+(e?" err":"");
+
+  msg.style.display="block";
+
+}
+
+
+/* =========================
+   ENVÍO DEL FORMULARIO
+========================= */
+
+document.querySelector("#form").onsubmit=async e=>{
+
+  e.preventDefault();
+
+  const song=document.querySelector("#song").value.trim();
+
+  const name=document.querySelector("#name").value.trim();
+
+  const dedication=document
+    .querySelector("#dedication")
+    .value
+    .trim();
+
+
+  if(!song){
+
+    return show(
+      "Escribe una canción y su artista.",
+      true
+    );
+
+  }
+
+
+  if(bad(song)){
+
+    return show(
+      "⚠️ Esta solicitud no cumple las reglas de la emisora y no fue aceptada.",
+      true
+    );
+
+  }
+
+
+  document.querySelector("#send").disabled=true;
+
+
+  try{
+
+    const item={
+      song,
+      name,
+      dedication,
+      createdAt:new Date().toISOString()
+    };
+
+
+    if(API_URL){
+
+      const r=await fetch(
+        API_URL+"/api/requests",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify(item)
+        }
+      );
+
+
+      if(!r.ok) throw 0;
+
+
+    }else{
+
+      const a=JSON.parse(
+        localStorage.getItem("nz_requests")||"[]"
+      );
+
+      a.push({
+        ...item,
+        status:"pendiente"
+      });
+
+      localStorage.setItem(
+        "nz_requests",
+        JSON.stringify(a)
+      );
+
+    }
+
+
+    e.target.reset();
+
+    show(
+      "✅ ¡Solicitud enviada! Gracias por participar en nuestra emisora."
+    );
+
+
+  }catch{
+
+    show(
+      "No pudimos enviar la solicitud. Intenta nuevamente.",
+      true
+    );
+
+  }finally{
+
+    document.querySelector("#send").disabled=false;
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
