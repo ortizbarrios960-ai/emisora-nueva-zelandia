@@ -9,7 +9,7 @@ app.use(express.static(__dirname));
 const requests = [];
 
 app.post("/api/requests", (req, res) => {
-  const { name, song } = req.body;
+  const { name, song, dedication } = req.body;
 
   if (!song || !song.trim()) {
     return res.status(400).json({
@@ -17,13 +17,14 @@ app.post("/api/requests", (req, res) => {
     });
   }
 
-  const request = {
-    id: Date.now().toString(),
-    name: name?.trim() || "Anónimo",
-    song: song.trim(),
-    status: "pendiente",
-    createdAt: new Date().toISOString()
-  };
+ const request = {
+  id: Date.now().toString(),
+  name: name?.trim() || "Anónimo",
+  song: song.trim(),
+  dedication: dedication?.trim() || "",
+  status: "pendiente",
+  createdAt: new Date().toISOString()
+};
 
   requests.push(request);
 
