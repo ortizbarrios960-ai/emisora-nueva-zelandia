@@ -1,1 +1,241 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>📻 Solicitudes en vivo</title><style>body{margin:0;background:#080b1b;color:#fff;font-family:Arial;padding:20px}.wrap{max-width:1000px;margin:auto}.card{background:#11172d;border:1px solid #2a3456;border-radius:16px;padding:18px;margin:12px 0}.meta{color:#aeb6d5;font-size:13px}button{border:0;border-radius:9px;padding:10px 13px;margin:8px 5px 0 0;font-weight:800}.ok{background:#22c55e}.no{background:#ef4444;color:#fff}.del{background:#334155;color:#fff}</style></head><body><div class="wrap"><h1>📻 Solicitudes en vivo</h1><div id="app"></div></div><script>const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));async function render(){const a=await fetch('/api/requests').then(r=>r.json()),b=document.querySelector('#app');b.innerHTML=a.length?'':'<div class=card>No hay solicitudes.</div>';a.forEach(x=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>🎵 ${esc(x.song)}</b><div class=meta>👤 ${esc(x.name||'Anónimo')} · ${new Date(x.createdAt).toLocaleString()} · ${esc(x.status)}</div>{x.dedication?`<div class=meta>💌 ${esc(x.dedication)}</div>`:''}<button class=ok onclick="st('${x.id}','aprobada')">Aprobar</button><button class=no onclick="st('${x.id}','rechazada')">Rechazar</button><button class=del onclick="rm('${x.id}')">Eliminar</button>`;b.appendChild(d)})}async function st(id,status){await fetch('/api/requests/'+id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});render()}async function rm(id){await fetch('/api/requests/'+id,{method:'DELETE'});render()}render();setInterval(render,4000)</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Administración · Emisora Nueva Zelandia</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b1020;
+  color:white;
+  padding:25px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#9ca8c7;
+  margin-bottom:25px;
+}
+
+.request{
+  background:#151d33;
+  border:1px solid #303b5d;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.song{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.meta{
+  color:#aeb8d2;
+  font-size:14px;
+  margin:6px 0;
+}
+
+.status{
+  font-weight:bold;
+  text-transform:capitalize;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
+  margin:10px 6px 0 0;
+  cursor:pointer;
+  color:white;
+  font-weight:bold;
+}
+
+.ok{
+  background:#16a34a;
+}
+
+.no{
+  background:#dc2626;
+}
+
+.del{
+  background:#475569;
+}
+
+.empty{
+  text-align:center;
+  color:#9ca8c7;
+  padding:40px;
+  background:#151d33;
+  border-radius:16px;
+}
+
+.refresh{
+  text-align:center;
+  color:#7f8baa;
+  font-size:12px;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎙️ Solicitudes en vivo</h1>
+
+<div class="subtitle">
+Panel de moderación · Emisora Nueva Zelandia
+</div>
+
+<div id="requests"></div>
+
+<div class="refresh">
+El panel se actualiza automáticamente cada 4 segundos.
+</div>
+
+</div>
+
+<script>
+
+function esc(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+async function render(){
+
+  const container = document.querySelector("#requests");
+
+  try{
+
+    const response = await fetch("/api/requests");
+
+    if(!response.ok){
+      throw new Error("Error al obtener solicitudes");
+    }
+
+    const requests = await response.json();
+
+    container.innerHTML = "";
+
+    if(!requests.length){
+      container.innerHTML = `
+        <div class="empty">
+          🎵 No hay solicitudes todavía.
+        </div>
+      `;
+      return;
+    }
+
+    requests.slice().reverse().forEach(x => {
+
+      const d = document.createElement("div");
+
+      d.className = "request";
+
+      d.innerHTML = `
+        <div class="song">
+          🎵 ${esc(x.song)}
+        </div>
+
+        <div class="meta">
+          👤 ${esc(x.name || "Anónimo")}
+        </div>
+
+        ${
+          x.dedication
+          ? `<div class="meta">💌 ${esc(x.dedication)}</div>`
+          : ""
+        }
+
+        <div class="meta">
+          🕐 ${new Date(x.createdAt).toLocaleString()}
+        </div>
+
+        <div class="meta">
+          Estado:
+          <span class="status">${esc(x.status)}</span>
+        </div>
+
+        <button class="ok" onclick="st('${esc(x.id)}','aprobada')">
+          ✅ Aprobar
+        </button>
+
+        <button class="no" onclick="st('${esc(x.id)}','rechazada')">
+          ❌ Rechazar
+        </button>
+
+        <button class="del" onclick="rm('${esc(x.id)}')">
+          🗑️ Eliminar
+        </button>
+      `;
+
+      container.appendChild(d);
+
+    });
+
+  }catch(error){
+
+    container.innerHTML = `
+      <div class="empty">
+        ⚠️ No se pudieron cargar las solicitudes.
+        <br><br>
+        Comprueba que el servidor esté funcionando.
+      </div>
+    `;
+
+    console.error(error);
+  }
+}
+
+async function st(id,status){
+
+  await fetch("/api/requests/" + id,{
+    method:"PATCH",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({status})
+  });
+
+  render();
+}
+
+async function rm(id){
+
+  await fetch("/api/requests/" + id,{
+    method:"DELETE"
+  });
+
+  render();
+}
+
+render();
+
+setInterval(render,4000);
+
+</script>
+
+</body>
+</html>
