@@ -122,7 +122,3 @@ app.listen(PORT, "0.0.0.0", () => {
     `Servidor funcionando en el puerto ${PORT}`
   );
 });
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor funcionando en el puerto ${PORT}`);
-});
