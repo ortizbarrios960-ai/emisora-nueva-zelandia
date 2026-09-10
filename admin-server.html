@@ -91,12 +91,85 @@ button{
   font-size:12px;
   margin-top:20px;
 }
+
+.login{
+  max-width:420px;
+  margin:100px auto;
+  background:#151d33;
+  border:1px solid #303b5d;
+  border-radius:18px;
+  padding:25px;
+  text-align:center;
+}
+
+.login h2{
+  margin-top:0;
+}
+
+.login p{
+  color:#9ca8c7;
+}
+
+.login input{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px;
+  margin:15px 0;
+  border-radius:10px;
+  border:1px solid #3b486b;
+  background:#0b1020;
+  color:white;
+  font-size:16px;
+}
+
+.login button{
+  width:100%;
+  background:#7c3aed;
+  padding:13px;
+  margin:0;
+}
+
+.login-error{
+  color:#f87171;
+  margin-top:12px;
+  display:none;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- LOGIN -->
+
+<div id="login" class="login">
+
+  <h2>🔐 Panel de administrador</h2>
+
+  <p>
+    Ingresa la clave para acceder a las solicitudes.
+  </p>
+
+  <input
+    id="adminKey"
+    type="password"
+    placeholder="Clave de administrador"
+    autocomplete="off"
+  >
+
+  <button onclick="login()">
+    🔓 Entrar
+  </button>
+
+  <div id="loginError" class="login-error">
+    ❌ Clave incorrecta.
+  </div>
+
+</div>
+
+
+<!-- PANEL -->
+
+<div id="panel" class="container" style="display:none;">
 
 <h1>🎙️ Solicitudes en vivo</h1>
 
@@ -112,16 +185,83 @@ El panel se actualiza automáticamente cada 4 segundos.
 
 </div>
 
+
 <script>
 
+/* =========================
+   AUTENTICACIÓN
+========================= */
+
+let adminKey = sessionStorage.getItem("adminKey");
+
+
+function login(){
+
+  const input = document.querySelector("#adminKey");
+  const error = document.querySelector("#loginError");
+
+  const key = input.value.trim();
+
+  if(!key){
+    error.textContent = "⚠️ Escribe la clave.";
+    error.style.display = "block";
+    return;
+  }
+
+  adminKey = key;
+
+  sessionStorage.setItem("adminKey", adminKey);
+
+  document.querySelector("#login").style.display = "none";
+  document.querySelector("#panel").style.display = "block";
+
+  render();
+}
+
+
+/* Si ya había iniciado sesión */
+
+if(adminKey){
+
+  document.querySelector("#login").style.display = "none";
+  document.querySelector("#panel").style.display = "block";
+
+}
+
+
+/* =========================
+   ENCABEZADOS DE SEGURIDAD
+========================= */
+
+function authHeaders(extra = {}){
+
+  return {
+    ...extra,
+    "x-admin-key": adminKey
+  };
+
+}
+
+
+/* =========================
+   ESCAPAR TEXTO
+========================= */
+
 function esc(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
+
+
+/* =========================
+   MOSTRAR SOLICITUDES
+========================= */
 
 async function render(){
 
@@ -129,24 +269,60 @@ async function render(){
 
   try{
 
-    const response = await fetch("/api/requests");
+    const response = await fetch(
+      "/api/requests",
+      {
+        headers: authHeaders()
+      }
+    );
+
+
+    /* CLAVE INCORRECTA */
+
+    if(response.status === 401){
+
+      sessionStorage.removeItem("adminKey");
+      adminKey = null;
+
+      document.querySelector("#panel").style.display = "none";
+      document.querySelector("#login").style.display = "block";
+
+      document.querySelector("#loginError").textContent =
+        "❌ La clave no es válida.";
+
+      document.querySelector("#loginError").style.display =
+        "block";
+
+      return;
+    }
+
 
     if(!response.ok){
-      throw new Error("Error al obtener solicitudes");
+
+      throw new Error(
+        "Error al obtener solicitudes"
+      );
+
     }
+
 
     const requests = await response.json();
 
     container.innerHTML = "";
 
+
     if(!requests.length){
+
       container.innerHTML = `
         <div class="empty">
           🎵 No hay solicitudes todavía.
         </div>
       `;
+
       return;
+
     }
+
 
     requests.slice().reverse().forEach(x => {
 
@@ -155,6 +331,7 @@ async function render(){
       d.className = "request";
 
       d.innerHTML = `
+
         <div class="song">
           🎵 ${esc(x.song)}
         </div>
@@ -175,20 +352,32 @@ async function render(){
 
         <div class="meta">
           Estado:
-          <span class="status">${esc(x.status)}</span>
+          <span class="status">
+            ${esc(x.status)}
+          </span>
         </div>
 
-        <button class="ok" onclick="st('${esc(x.id)}','aprobada')">
+        <button
+          class="ok"
+          onclick="st('${esc(x.id)}','aprobada')"
+        >
           ✅ Aprobar
         </button>
 
-        <button class="no" onclick="st('${esc(x.id)}','rechazada')">
+        <button
+          class="no"
+          onclick="st('${esc(x.id)}','rechazada')"
+        >
           ❌ Rechazar
         </button>
 
-        <button class="del" onclick="rm('${esc(x.id)}')">
+        <button
+          class="del"
+          onclick="rm('${esc(x.id)}')"
+        >
           🗑️ Eliminar
         </button>
+
       `;
 
       container.appendChild(d);
@@ -201,39 +390,140 @@ async function render(){
       <div class="empty">
         ⚠️ No se pudieron cargar las solicitudes.
         <br><br>
-        Comprueba que el servidor esté funcionando.
+        Comprueba que el servidor esté funcionando
+        y que la clave sea correcta.
       </div>
     `;
 
     console.error(error);
+
   }
+
 }
+
+
+/* =========================
+   APROBAR / RECHAZAR
+========================= */
 
 async function st(id,status){
 
-  await fetch("/api/requests/" + id,{
-    method:"PATCH",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({status})
-  });
+  try{
 
-  render();
+    const response = await fetch(
+      "/api/requests/" + id,
+      {
+        method:"PATCH",
+
+        headers:authHeaders({
+          "Content-Type":"application/json"
+        }),
+
+        body:JSON.stringify({
+          status:status
+        })
+
+      }
+    );
+
+
+    if(response.status === 401){
+
+      alert("❌ Clave de administrador inválida.");
+
+      sessionStorage.removeItem("adminKey");
+      location.reload();
+
+      return;
+
+    }
+
+
+    render();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "⚠️ No se pudo actualizar la solicitud."
+    );
+
+  }
+
 }
+
+
+/* =========================
+   ELIMINAR
+========================= */
 
 async function rm(id){
 
-  await fetch("/api/requests/" + id,{
-    method:"DELETE"
-  });
+  const confirmar = confirm(
+    "¿Seguro que quieres eliminar esta solicitud?"
+  );
 
+  if(!confirmar){
+    return;
+  }
+
+
+  try{
+
+    const response = await fetch(
+      "/api/requests/" + id,
+      {
+        method:"DELETE",
+
+        headers:authHeaders()
+
+      }
+    );
+
+
+    if(response.status === 401){
+
+      alert("❌ Clave de administrador inválida.");
+
+      sessionStorage.removeItem("adminKey");
+      location.reload();
+
+      return;
+
+    }
+
+
+    render();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "⚠️ No se pudo eliminar la solicitud."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   CARGA AUTOMÁTICA
+========================= */
+
+if(adminKey){
   render();
 }
 
-render();
+setInterval(() => {
 
-setInterval(render,4000);
+  if(adminKey){
+    render();
+  }
+
+},4000);
 
 </script>
 
