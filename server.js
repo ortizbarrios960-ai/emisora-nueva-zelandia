@@ -8,6 +8,33 @@ app.use(express.static(__dirname));
 
 const requests = [];
 
+/* =========================
+   SEGURIDAD DEL ADMIN
+========================= */
+
+function adminAuth(req, res, next) {
+  const key = req.headers["x-admin-key"];
+
+  if (!process.env.ADMIN_KEY) {
+    return res.status(500).json({
+      error: "La clave de administrador no está configurada."
+    });
+  }
+
+  if (key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({
+      error: "No autorizado."
+    });
+  }
+
+  next();
+}
+
+
+/* =========================
+   SOLICITUDES PÚBLICAS
+========================= */
+
 app.post("/api/requests", (req, res) => {
   const { name, song, dedication } = req.body;
 
@@ -17,14 +44,14 @@ app.post("/api/requests", (req, res) => {
     });
   }
 
- const request = {
-  id: Date.now().toString(),
-  name: name?.trim() || "Anónimo",
-  song: song.trim(),
-  dedication: dedication?.trim() || "",
-  status: "pendiente",
-  createdAt: new Date().toISOString()
-};
+  const request = {
+    id: Date.now().toString(),
+    name: name?.trim() || "Anónimo",
+    song: song.trim(),
+    dedication: dedication?.trim() || "",
+    status: "pendiente",
+    createdAt: new Date().toISOString()
+  };
 
   requests.push(request);
 
@@ -34,12 +61,21 @@ app.post("/api/requests", (req, res) => {
   });
 });
 
-app.get("/api/requests", (req, res) => {
+
+/* =========================
+   ADMINISTRACIÓN PROTEGIDA
+========================= */
+
+app.get("/api/requests", adminAuth, (req, res) => {
   res.json(requests);
 });
 
-app.patch("/api/requests/:id", (req, res) => {
-  const request = requests.find(x => x.id === req.params.id);
+
+app.patch("/api/requests/:id", adminAuth, (req, res) => {
+
+  const request = requests.find(
+    x => x.id === req.params.id
+  );
 
   if (!request) {
     return res.status(404).json({
@@ -47,7 +83,8 @@ app.patch("/api/requests/:id", (req, res) => {
     });
   }
 
-  request.status = req.body.status || request.status;
+  request.status =
+    req.body.status || request.status;
 
   res.json({
     success: true,
@@ -55,8 +92,12 @@ app.patch("/api/requests/:id", (req, res) => {
   });
 });
 
-app.delete("/api/requests/:id", (req, res) => {
-  const index = requests.findIndex(x => x.id === req.params.id);
+
+app.delete("/api/requests/:id", adminAuth, (req, res) => {
+
+  const index = requests.findIndex(
+    x => x.id === req.params.id
+  );
 
   if (index === -1) {
     return res.status(404).json({
@@ -69,6 +110,17 @@ app.delete("/api/requests/:id", (req, res) => {
   res.json({
     success: true
   });
+});
+
+
+/* =========================
+   SERVIDOR
+========================= */
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(
+    `Servidor funcionando en el puerto ${PORT}`
+  );
 });
 
 app.listen(PORT, "0.0.0.0", () => {
