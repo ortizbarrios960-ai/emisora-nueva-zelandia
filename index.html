@@ -1,809 +1,600 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b1b">
-
-<title>🎙️ Emisora Nueva Zelandia</title>
-
-<style>
-:root{
-  --bg:#070914;
-  --bg2:#0d1228;
-  --card:#11172d;
-  --card2:#151c38;
-  --text:#f8f9ff;
-  --muted:#aeb6d5;
-  --purple:#8b5cf6;
-  --blue:#22d3ee;
-  --pink:#ec4899;
-  --green:#22c55e;
-  --yellow:#ffd54a;
-  --red:#ff4d6d;
-  --line:#2a3456;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 10% 0%,#252c67 0%,transparent 32%),
-    radial-gradient(circle at 90% 15%,#321957 0%,transparent 30%),
-    linear-gradient(145deg,var(--bg),#090d20 50%,#070914);
-  min-height:100vh;
-}
-
-.wrap{
-  width:min(1050px,100%);
-  margin:auto;
-  padding:20px 15px 45px;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  text-align:center;
-  padding:25px 5px 35px;
-}
-
-.live{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  padding:9px 15px;
-  border:1px solid #39456e;
-  background:#0c1228cc;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.5px;
-  box-shadow:0 8px 30px #0005;
-}
-
-.dot{
-  width:9px;
-  height:9px;
-  background:var(--red);
-  border-radius:50%;
-  box-shadow:0 0 16px var(--red);
-  animation:blink 1.2s infinite;
-}
-
-@keyframes blink{
-  50%{
-    opacity:.35;
-    transform:scale(.75);
-  }
-}
-
-.waves{
-  height:70px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:5px;
-  margin-top:12px;
-}
-
-.bar{
-  width:5px;
-  border-radius:10px;
-  background:linear-gradient(to top,var(--purple),var(--blue));
-  animation:p 1s infinite ease-in-out;
-  box-shadow:0 0 12px #22d3ee55;
-}
-
-.bar:nth-child(1){height:18px}
-.bar:nth-child(2){height:34px;animation-delay:.1s}
-.bar:nth-child(3){height:48px;animation-delay:.2s}
-.bar:nth-child(4){height:27px;animation-delay:.3s}
-.bar:nth-child(5){height:58px;animation-delay:.4s}
-.bar:nth-child(6){height:38px;animation-delay:.5s}
-.bar:nth-child(7){height:48px;animation-delay:.6s}
-.bar:nth-child(8){height:24px;animation-delay:.7s}
-
-@keyframes p{
-  50%{
-    transform:scaleY(.5);
-    opacity:.55;
-  }
-}
-
-.hero h1{
-  margin:8px 0 14px;
-  font-size:clamp(34px,8vw,64px);
-  line-height:.98;
-  font-weight:1000;
-  letter-spacing:-2px;
-  background:linear-gradient(100deg,#fff,var(--blue),#c084fc,var(--pink));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  margin:0 auto;
-  max-width:650px;
-  color:var(--muted);
-  font-size:clamp(16px,3vw,21px);
-  line-height:1.5;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
-.grid{
-  display:grid;
-  gap:20px;
-}
-
-.card{
-  background:linear-gradient(145deg,#11172df2,#0d1227f2);
-  border:1px solid var(--line);
-  border-radius:25px;
-  padding:22px;
-  box-shadow:0 20px 70px #0008;
-  backdrop-filter:blur(10px);
-}
-
-/* =========================
-   WARNING
-========================= */
-
-.warning{
-  position:relative;
-  overflow:hidden;
-  border:1px solid #806b20;
-  background:
-    radial-gradient(circle at 100% 0%,#5a4318 0%,transparent 40%),
-    linear-gradient(135deg,#29230f,#171626);
-  border-radius:19px;
-  padding:20px;
-  margin-bottom:25px;
-}
-
-.warning::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:4px;
-  background:var(--yellow);
-}
-
-.warning h2{
-  margin:0 0 12px;
-  font-size:19px;
-}
-
-.warning ul{
-  margin:0;
-  padding-left:22px;
-  line-height:1.8;
-  color:#fff6c7;
-  font-weight:750;
-}
-
-.warning li::marker{
-  color:var(--yellow);
-}
-
-/* =========================
-   FORM
-========================= */
-
-.form-title{
-  margin:0 0 5px;
-  font-size:25px;
-}
-
-.form-subtitle{
-  margin:0 0 20px;
-  color:var(--muted);
-  font-size:14px;
-}
-
-label{
-  display:block;
-  margin:19px 0 8px;
-  font-weight:850;
-  font-size:14px;
-}
-
-input{
-  width:100%;
-  padding:16px 17px;
-  border-radius:15px;
-  border:1px solid #354164;
-  background:#080d20;
-  color:#fff;
-  font:inherit;
-  outline:none;
-  transition:.2s;
-}
-
-input::placeholder{
-  color:#727b9c;
-}
-
-input:focus{
-  border-color:var(--blue);
-  box-shadow:
-    0 0 0 3px #22d3ee12,
-    0 0 25px #22d3ee0d;
-  transform:translateY(-1px);
-}
-
-.hint{
-  margin-top:7px;
-  color:#858eae;
-  font-size:12px;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-button{
-  width:100%;
-  margin-top:22px;
-  padding:17px;
-  border:0;
-  border-radius:15px;
-  color:white;
-  font-weight:950;
-  font-size:16px;
-  letter-spacing:.3px;
-  background:linear-gradient(100deg,var(--purple),#6366f1,var(--blue));
-  box-shadow:0 12px 30px #5b5cf633;
-  cursor:pointer;
-  transition:.2s;
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 35px #5b5cf655;
-}
-
-button:active{
-  transform:translateY(0);
-}
-
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-  transform:none;
-}
-
-/* =========================
-   MESSAGE
-========================= */
-
-.msg{
-  display:none;
-  margin-top:14px;
-  padding:14px 15px;
-  border-radius:13px;
-  font-weight:800;
-  background:#0b3025;
-  border:1px solid #28d39e;
-  color:#baffdf;
-}
-
-.err{
-  background:#3d1722;
-  border-color:#ff5d7b;
-  color:#ffd5dd;
-}
-
-/* =========================
-   SIDE INFO
-========================= */
-
-.info{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-}
-
-.info-box{
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:19px;
-  background:#0b1024aa;
-}
-
-.info-icon{
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.info-box h3{
-  margin:0 0 6px;
-  font-size:16px;
-}
-
-.info-box p{
-  margin:0;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-/* =========================
-   EVENT CARD
-========================= */
-
-.event{
-  margin-top:18px;
-  padding:18px;
-  border-radius:18px;
-  background:
-    linear-gradient(135deg,#17123a,#101a35);
-  border:1px solid #3b3971;
-}
-
-.event strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:5px;
-}
-
-.event span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-  text-align:center;
-  color:#7f88a8;
-  font-size:12px;
-  line-height:1.6;
-  margin-top:24px;
-  padding:0 10px;
-}
-
-/* =========================
-   DESKTOP
-========================= */
-
-@media(min-width:720px){
-
-  .wrap{
-    padding-top:30px;
-  }
-
-  .grid{
-    grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
-    align-items:start;
-  }
-
-  .card{
-    padding:27px;
-  }
-
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:500px){
-
-  .wrap{
-    padding:15px 12px 35px;
-  }
-
-  .hero{
-    padding-top:18px;
-  }
-
-  .hero h1{
-    font-size:37px;
-    letter-spacing:-1.5px;
-  }
-
-  .hero p{
-    font-size:15px;
-  }
-
-  .card{
-    padding:17px;
-    border-radius:20px;
-  }
-
-  .warning{
-    padding:17px;
-  }
-
-  .warning ul{
-    font-size:13px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Emisora Nueva Zelandia</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top,#31206d 0%,#17133d 45%,#09091f 100%);
+      color:white;
+      min-height:100vh;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      margin:auto;
+      padding:15px 12px 35px;
+    }
+
+    /* HERO */
+    .hero{
+      text-align:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:25px;
+      padding:25px 15px;
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
+      backdrop-filter:blur(10px);
+    }
+
+    .live{
+      display:inline-block;
+      background:#ff1744;
+      padding:7px 14px;
+      border-radius:30px;
+      font-size:12px;
+      font-weight:bold;
+      letter-spacing:.7px;
+      box-shadow:0 0 20px rgba(255,23,68,.45);
+    }
+
+    .school-logo{
+      width:105px;
+      height:105px;
+      object-fit:contain;
+      display:block;
+      margin:18px auto 8px;
+      filter:drop-shadow(0 8px 20px #0009);
+    }
+
+    h1{
+      font-size:clamp(34px,8vw,62px);
+      line-height:.95;
+      margin:12px 0;
+      font-weight:900;
+      letter-spacing:-2px;
+    }
+
+    .subtitle{
+      color:#d9d5ff;
+      font-size:16px;
+      line-height:1.5;
+      max-width:650px;
+      margin:auto;
+    }
+
+    /* AUDIO BARS */
+    .bars{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:5px;
+      height:38px;
+      margin:20px 0 5px;
+    }
+
+    .bars span{
+      width:5px;
+      border-radius:10px;
+      background:#9c6cff;
+      animation:equalizer .9s infinite ease-in-out;
+    }
+
+    .bars span:nth-child(1){height:15px}
+    .bars span:nth-child(2){height:28px;animation-delay:.1s}
+    .bars span:nth-child(3){height:38px;animation-delay:.2s}
+    .bars span:nth-child(4){height:23px;animation-delay:.3s}
+    .bars span:nth-child(5){height:32px;animation-delay:.4s}
+    .bars span:nth-child(6){height:18px;animation-delay:.5s}
+    .bars span:nth-child(7){height:29px;animation-delay:.6s}
+
+    @keyframes equalizer{
+      0%,100%{transform:scaleY(.55)}
+      50%{transform:scaleY(1)}
+    }
+
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      padding:20px;
+      box-shadow:0 12px 35px rgba(0,0,0,.25);
+    }
+
+    .card h2{
+      font-size:21px;
+      margin-bottom:15px;
+    }
+
+    /* FORM */
+    label{
+      display:block;
+      margin:13px 0 7px;
+      font-size:14px;
+      font-weight:bold;
+      color:#e6e2ff;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      border:none;
+      outline:none;
+      padding:14px;
+      border-radius:13px;
+      background:rgba(255,255,255,.12);
+      color:white;
+      font-size:15px;
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    input::placeholder,
+    textarea::placeholder{
+      color:#aaa6c7;
+    }
+
+    textarea{
+      min-height:95px;
+      resize:vertical;
+    }
+
+    button{
+      width:100%;
+      border:none;
+      border-radius:15px;
+      padding:15px;
+      margin-top:16px;
+      background:linear-gradient(135deg,#8b5cf6,#5b21b6);
+      color:white;
+      font-weight:900;
+      font-size:15px;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(91,33,182,.35);
+      transition:.2s;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+    }
+
+    button:active{
+      transform:scale(.98);
+    }
+
+    .message{
+      margin-top:12px;
+      text-align:center;
+      font-size:14px;
+      min-height:20px;
+    }
+
+    /* WARNING */
+    .warning{
+      background:rgba(255,193,7,.08);
+      border:1px solid rgba(255,193,7,.2);
+      border-radius:15px;
+      padding:13px;
+      margin-top:15px;
+      color:#ffe9a6;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    /* INFO */
+    .info{
+      display:grid;
+      gap:13px;
+    }
+
+    .info-item{
+      background:rgba(255,255,255,.06);
+      border-radius:15px;
+      padding:15px;
+    }
+
+    .info-item strong{
+      display:block;
+      margin-bottom:5px;
+      font-size:15px;
+    }
+
+    .info-item p{
+      color:#c8c4df;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      color:#aaa6c7;
+      font-size:12px;
+      margin-top:22px;
+      line-height:1.6;
+    }
+
+    /* DESKTOP */
+    @media (min-width:720px){
+
+      .wrap{
+        padding:30px 20px 45px;
+      }
+
+      .hero{
+        padding:35px 25px;
+      }
+
+      .school-logo{
+        width:125px;
+        height:125px;
+      }
+
+      .grid{
+        grid-template-columns:1.15fr .85fr;
+        gap:20px;
+      }
+
+      .card{
+        padding:25px;
+      }
+    }
+
+    /* CELULARES PEQUEÑOS */
+    @media (max-width:380px){
+
+      .wrap{
+        padding:10px 9px 25px;
+      }
+
+      .hero{
+        padding:20px 12px;
+      }
+
+      .school-logo{
+        width:90px;
+        height:90px;
+      }
+
+      h1{
+        font-size:35px;
+      }
+
+      .subtitle{
+        font-size:14px;
+      }
+
+      .card{
+        padding:17px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="wrap">
+  <div class="wrap">
 
-  <!-- =========================
-       ENCABEZADO
-  ========================== -->
+    <!-- HERO -->
+    <section class="hero">
 
-  <header class="hero">
+      <div class="live">
+        🔴 TRANSMISIÓN EN VIVO · 2 DE OCTUBRE
+      </div>
 
-    <div class="live">
-      <span class="dot"></span>
-      TRANSMISIÓN EN VIVO · 2 DE OCTUBRE
-    </div>
+      <!-- LOGO DEL COLEGIO -->
+      <img
+        src="logo-colegio.png"
+        alt="Logo Colegio Nueva Zelandia"
+        class="school-logo"
+      >
 
-    <div class="waves">
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-      <i class="bar"></i>
-    </div>
+      <div class="bars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-    <h1>🎙️ EMISORA<br>NUEVA ZELANDIA</h1>
+      <h1>
+        🎙️ EMISORA<br>
+        NUEVA ZELANDIA
+      </h1>
 
-    <p>
-      ¡Tú eliges la canción, nosotros la ponemos al aire!
-    </p>
+      <p class="subtitle">
+        ¡Tú eliges la canción, nosotros la ponemos al aire!
+      </p>
 
-  </header>
+    </section>
 
 
-  <!-- =========================
-       CONTENIDO PRINCIPAL
-  ========================== -->
+    <!-- CONTENIDO -->
+    <div class="grid">
 
-  <div class="grid">
+      <!-- FORMULARIO -->
+      <section class="card">
 
-    <main class="card">
+        <h2>📻 Pide tu canción</h2>
 
-      <section class="warning">
+        <form id="requestForm">
 
-        <h2>⚠️ IMPORTANTE</h2>
+          <label for="song">
+            🎵 Canción
+          </label>
 
-        <ul>
-          <li>NO canciones misóginas</li>
-          <li>NO canciones sexistas</li>
-          <li>NO canciones con xenofobia</li>
-          <li>NO canciones racistas</li>
-          <li>NO canciones machistas</li>
-        </ul>
+          <input
+            id="song"
+            name="song"
+            type="text"
+            placeholder="Escribe la canción que quieres escuchar"
+            required
+          >
+
+          <label for="name">
+            👤 Tu nombre
+          </label>
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Opcional"
+          >
+
+          <label for="dedication">
+            💌 Dedicatoria
+          </label>
+
+          <textarea
+            id="dedication"
+            name="dedication"
+            placeholder="Escribe tu dedicatoria..."
+          ></textarea>
+
+          <div class="warning">
+            ⚠️ No se aceptan canciones con contenido
+            misógino, sexista, xenófobo, racista o machista.
+          </div>
+
+          <button type="submit">
+            📻 ENVIAR SOLICITUD
+          </button>
+
+          <div
+            id="message"
+            class="message"
+          ></div>
+
+        </form>
 
       </section>
 
 
-      <form id="form">
+      <!-- INFORMACIÓN -->
+      <section class="card">
 
-        <h2 class="form-title">
-          🎵 Pide tu canción
-        </h2>
+        <h2>🎧 Sobre la emisora</h2>
 
-        <p class="form-subtitle">
-          Haz tu solicitud y participa en nuestra transmisión.
-        </p>
+        <div class="info">
 
+          <div class="info-item">
+            <strong>🎙️ La voz del colegio</strong>
+            <p>
+              Un espacio creado por los estudiantes
+              para compartir música, mensajes y
+              buena energía durante la Feria de la Comunicación.
+            </p>
+          </div>
 
-        <label for="song">
-          🎵 ¿Qué canción quieres escuchar?
-        </label>
+          <div class="info-item">
+            <strong>📲 ¿Cómo funciona?</strong>
+            <p>
+              Escribe el nombre de tu canción,
+              agrega tu nombre y una dedicatoria
+              si quieres, y envía tu solicitud.
+            </p>
+          </div>
 
-        <input
-          id="song"
-          maxlength="120"
-          required
-          placeholder="Nombre de la canción — Artista o cantante"
-        >
+          <div class="info-item">
+            <strong>🛡️ Moderación</strong>
+            <p>
+              Las solicitudes serán revisadas antes
+              de ser transmitidas para mantener
+              un ambiente respetuoso.
+            </p>
+          </div>
 
-        <div class="hint">
-          Las solicitudes pasan por moderación antes de salir al aire.
+          <div class="info-item">
+            <strong>🎉 Feria de la Comunicación</strong>
+            <p>
+              Colegio Nueva Zelandia ·
+              2 de octubre de 2026.
+            </p>
+          </div>
+
         </div>
 
+      </section>
 
-        <label for="name">
-          👤 Tu nombre <span style="color:#7f88a8">(opcional)</span>
-        </label>
-
-        <input
-          id="name"
-          maxlength="60"
-          placeholder="Tu nombre"
-        >
+    </div>
 
 
-        <label for="dedication">
-          💌 Dedicatoria <span style="color:#7f88a8">(opcional)</span>
-        </label>
-
-        <input
-          id="dedication"
-          maxlength="200"
-          placeholder="Escribe tu dedicatoria"
-        >
-
-
-        <button id="send" type="submit">
-          📻 ENVIAR SOLICITUD
-        </button>
-
-        <div id="msg" class="msg"></div>
-
-      </form>
-
-    </main>
-
-
-    <!-- =========================
-         INFORMACIÓN
-    ========================== -->
-
-    <aside class="card info">
-
-      <div class="info-box">
-
-        <div class="info-icon">🎙️</div>
-
-        <h3>La voz del colegio</h3>
-
-        <p>
-          Participa en la Emisora Nueva Zelandia
-          durante nuestra Feria de la Comunicación.
-        </p>
-
-      </div>
-
-
-      <div class="info-box">
-
-        <div class="info-icon">🎧</div>
-
-        <h3>¿Cómo funciona?</h3>
-
-        <p>
-          Escribe una canción, agrega tu nombre y
-          una dedicatoria si quieres. Luego envía
-          tu solicitud.
-        </p>
-
-      </div>
-
-
-      <div class="info-box">
-
-        <div class="info-icon">🛡️</div>
-
-        <h3>Moderación</h3>
-
-        <p>
-          Todas las solicitudes son revisadas antes
-          de ser seleccionadas para la transmisión.
-        </p>
-
-      </div>
-
-
-      <div class="event">
-
-        <strong>📅 Feria de la Comunicación</strong>
-
-        <span>
-          Colegio Nueva Zelandia · 2 de octubre de 2026
-        </span>
-
-      </div>
-
-    </aside>
+    <footer>
+      🎙️ Emisora Nueva Zelandia<br>
+      Feria de la Comunicación · 2026
+    </footer>
 
   </div>
 
 
-  <footer>
-    Feria de la Comunicación · Colegio Nueva Zelandia<br>
-    Solicitudes sujetas a moderación.
-  </footer>
+  <script>
 
-</div>
+    const API_URL =
+      "https://emisora-nueva-zelandia-qi8v.onrender.com";
 
+    const form =
+      document.getElementById("requestForm");
 
-<script>
-
-/* =========================
-   CONEXIÓN CON EL SERVIDOR
-========================= */
-
-const API_URL="https://emisora-nueva-zelandia-qi8v.onrender.com";
+    const message =
+      document.getElementById("message");
 
 
-/* =========================
-   FILTRO DE SOLICITUDES
-========================= */
-
-const banned=[
-  "nazi",
-  "hitler",
-  "matar",
-  "odio",
-  "odiar",
-  "maricon",
-  "marica",
-  "puto",
-  "puta",
-  "perra",
-  "zorra",
-  "violacion",
-  "violar",
-  "terrorista",
-  "racista",
-  "xenofobia",
-  "misogino",
-  "misogina",
-  "sexista",
-  "machista"
-];
-
-const norm=s=>
-  String(s||"")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .toLowerCase();
-
-const bad=s=>
-  banned.some(w=>norm(s).includes(w));
+    const bannedTerms = [
+      "misogino",
+      "misógino",
+      "misoginia",
+      "sexista",
+      "xenofobo",
+      "xenófobo",
+      "racista",
+      "machista"
+    ];
 
 
-/* =========================
-   MENSAJES
-========================= */
+    form.addEventListener("submit", async function(e){
 
-const msg=document.querySelector("#msg");
+      e.preventDefault();
 
-function show(t,e=false){
+      const song =
+        document.getElementById("song").value.trim();
 
-  msg.textContent=t;
+      const name =
+        document.getElementById("name").value.trim();
 
-  msg.className="msg"+(e?" err":"");
-
-  msg.style.display="block";
-
-}
+      const dedication =
+        document.getElementById("dedication").value.trim();
 
 
-/* =========================
-   ENVÍO DEL FORMULARIO
-========================= */
+      if(!song){
 
-document.querySelector("#form").onsubmit=async e=>{
+        message.textContent =
+          "⚠️ Escribe el nombre de una canción.";
 
-  e.preventDefault();
-
-  const song=document.querySelector("#song").value.trim();
-
-  const name=document.querySelector("#name").value.trim();
-
-  const dedication=document
-    .querySelector("#dedication")
-    .value
-    .trim();
+        return;
+      }
 
 
-  if(!song){
-
-    return show(
-      "Escribe una canción y su artista.",
-      true
-    );
-
-  }
+      const textToCheck =
+        (song + " " + dedication).toLowerCase();
 
 
-  if(bad(song)){
-
-    return show(
-      "⚠️ Esta solicitud no cumple las reglas de la emisora y no fue aceptada.",
-      true
-    );
-
-  }
+      const hasBannedTerm =
+        bannedTerms.some(term =>
+          textToCheck.includes(term)
+        );
 
 
-  document.querySelector("#send").disabled=true;
+      if(hasBannedTerm){
+
+        message.textContent =
+          "⚠️ Esa solicitud no puede ser enviada.";
+
+        return;
+      }
 
 
-  try{
-
-    const item={
-      song,
-      name,
-      dedication,
-      createdAt:new Date().toISOString()
-    };
+      const data = {
+        song: song,
+        name: name,
+        dedication: dedication,
+        createdAt: new Date().toISOString()
+      };
 
 
-    if(API_URL){
+      message.textContent =
+        "⏳ Enviando solicitud...";
 
-      const r=await fetch(
-        API_URL+"/api/requests",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify(item)
+
+      try{
+
+        const response =
+          await fetch(API_URL + "/api/requests", {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(data)
+
+          });
+
+
+        if(!response.ok){
+          throw new Error("Error del servidor");
         }
-      );
 
 
-      if(!r.ok) throw 0;
+        message.textContent =
+          "✅ ¡Solicitud enviada correctamente!";
 
 
-    }else{
-
-      const a=JSON.parse(
-        localStorage.getItem("nz_requests")||"[]"
-      );
-
-      a.push({
-        ...item,
-        status:"pendiente"
-      });
-
-      localStorage.setItem(
-        "nz_requests",
-        JSON.stringify(a)
-      );
-
-    }
+        form.reset();
 
 
-    e.target.reset();
+      }catch(error){
 
-    show(
-      "✅ ¡Solicitud enviada! Gracias por participar en nuestra emisora."
-    );
+        console.error(error);
 
 
-  }catch{
+        try{
 
-    show(
-      "No pudimos enviar la solicitud. Intenta nuevamente.",
-      true
-    );
+          const requests =
+            JSON.parse(
+              localStorage.getItem("radioRequests") || "[]"
+            );
 
-  }finally{
 
-    document.querySelector("#send").disabled=false;
+          requests.push(data);
 
-  }
 
-};
+          localStorage.setItem(
+            "radioRequests",
+            JSON.stringify(requests)
+          );
 
-</script>
+
+          message.textContent =
+            "✅ Solicitud guardada correctamente.";
+
+          form.reset();
+
+
+        }catch(localError){
+
+          message.textContent =
+            "❌ No se pudo enviar la solicitud.";
+
+        }
+
+      }
+
+    });
+
+  </script>
 
 </body>
 </html>
