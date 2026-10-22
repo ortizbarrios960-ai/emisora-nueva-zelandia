@@ -7,18 +7,10 @@ const PORT = process.env.PORT || 10000;
 app.use(express.json());
 app.use(express.static(__dirname));
 
-/* =========================
-   SUPABASE
-========================= */
-
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SECRET_KEY
 );
-
-/* =========================
-   SEGURIDAD DEL ADMIN
-========================= */
 
 function adminAuth(req, res, next) {
   const key = req.headers["x-admin-key"];
@@ -38,13 +30,10 @@ function adminAuth(req, res, next) {
   next();
 }
 
-/* =========================
-   SOLICITUDES PÚBLICAS
-========================= */
-
+// Recibir solicitudes de canciones
 app.post("/api/requests", async (req, res) => {
   try {
-    const { name, song, dedication } = req.body;
+    const { name, song, artist, dedication } = req.body;
 
     if (!song || !song.trim()) {
       return res.status(400).json({
@@ -52,10 +41,17 @@ app.post("/api/requests", async (req, res) => {
       });
     }
 
+    if (!artist || !artist.trim()) {
+      return res.status(400).json({
+        error: "Falta el nombre del artista."
+      });
+    }
+
     const request = {
       id: Date.now().toString(),
       name: name?.trim() || "Anónimo",
       song: song.trim(),
+      artist: artist.trim(),
       dedication: dedication?.trim() || "",
       status: "pendiente",
       created_at: new Date().toISOString()
@@ -89,10 +85,7 @@ app.post("/api/requests", async (req, res) => {
   }
 });
 
-/* =========================
-   ADMINISTRACIÓN
-========================= */
-
+// Obtener solicitudes para el administrador
 app.get("/api/requests", adminAuth, async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -119,10 +112,7 @@ app.get("/api/requests", adminAuth, async (req, res) => {
   }
 });
 
-/* =========================
-   CAMBIAR ESTADO
-========================= */
-
+// Aprobar o rechazar una solicitud
 app.patch("/api/requests/:id", adminAuth, async (req, res) => {
   try {
     const { status } = req.body;
@@ -156,10 +146,7 @@ app.patch("/api/requests/:id", adminAuth, async (req, res) => {
   }
 });
 
-/* =========================
-   ELIMINAR SOLICITUD
-========================= */
-
+// Eliminar una solicitud
 app.delete("/api/requests/:id", adminAuth, async (req, res) => {
   try {
     const { error } = await supabase
@@ -188,10 +175,7 @@ app.delete("/api/requests/:id", adminAuth, async (req, res) => {
   }
 });
 
-/* =========================
-   SERVIDOR
-========================= */
-
+// Iniciar servidor
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor funcionando en el puerto ${PORT}`);
 });
