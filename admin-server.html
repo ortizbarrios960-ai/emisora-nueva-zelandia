@@ -1,531 +1,221 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Administración · Emisora Nueva Zelandia</title>
+<title>Panel de Administración · RADIO MILENIAL</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#0b1020;
-  color:white;
-  padding:25px;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-}
-
-h1{
-  text-align:center;
-  margin-bottom:8px;
-}
-
-.subtitle{
-  text-align:center;
-  color:#9ca8c7;
-  margin-bottom:25px;
-}
-
-.request{
-  background:#151d33;
-  border:1px solid #303b5d;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:15px;
-}
-
-.song{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.meta{
-  color:#aeb8d2;
-  font-size:14px;
-  margin:6px 0;
-}
-
-.status{
-  font-weight:bold;
-  text-transform:capitalize;
-}
-
-button{
-  border:0;
-  border-radius:9px;
-  padding:10px 14px;
-  margin:10px 6px 0 0;
-  cursor:pointer;
-  color:white;
-  font-weight:bold;
-}
-
-.ok{
-  background:#16a34a;
-}
-
-.no{
-  background:#dc2626;
-}
-
-.del{
-  background:#475569;
-}
-
-.empty{
-  text-align:center;
-  color:#9ca8c7;
-  padding:40px;
-  background:#151d33;
-  border-radius:16px;
-}
-
-.refresh{
-  text-align:center;
-  color:#7f8baa;
-  font-size:12px;
-  margin-top:20px;
-}
-
-.login{
-  max-width:420px;
-  margin:100px auto;
-  background:#151d33;
-  border:1px solid #303b5d;
-  border-radius:18px;
-  padding:25px;
-  text-align:center;
-}
-
-.login h2{
-  margin-top:0;
-}
-
-.login p{
-  color:#9ca8c7;
-}
-
-.login input{
-  width:100%;
-  box-sizing:border-box;
-  padding:13px;
-  margin:15px 0;
-  border-radius:10px;
-  border:1px solid #3b486b;
-  background:#0b1020;
-  color:white;
-  font-size:16px;
-}
-
-.login button{
-  width:100%;
-  background:#7c3aed;
-  padding:13px;
-  margin:0;
-}
-
-.login-error{
-  color:#f87171;
-  margin-top:12px;
-  display:none;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:white;padding:25px}
+.container{max-width:900px;margin:auto}
+h1{text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;color:#9ca8c7;margin-bottom:25px}
+.request{background:#151d33;border:1px solid #303b5d;border-radius:16px;padding:18px;margin-bottom:15px}
+.song{font-size:18px;font-weight:bold;margin-bottom:8px}
+.meta{color:#aeb8d2;font-size:14px;margin:6px 0;overflow-wrap:anywhere}
+.status{font-weight:bold;text-transform:capitalize}
+button{border:0;border-radius:9px;padding:10px 14px;margin:10px 6px 0 0;cursor:pointer;color:white;font-weight:bold}
+.ok{background:#16a34a}
+.no{background:#dc2626}
+.del{background:#475569}
+.empty{text-align:center;color:#9ca8c7;padding:40px;background:#151d33;border-radius:16px}
+.refresh{text-align:center;color:#7f8baa;font-size:12px;margin-top:20px}
+.login{max-width:420px;margin:100px auto;background:#151d33;border:1px solid #303b5d;border-radius:18px;padding:25px;text-align:center}
+.login h2{margin-top:0}
+.login p{color:#9ca8c7}
+.login input{width:100%;box-sizing:border-box;padding:13px;margin:15px 0;border-radius:10px;border:1px solid #3b486b;background:#0b1020;color:white;font-size:16px}
+.login button{width:100%;background:#7c3aed;padding:13px;margin:0}
+.login-error{color:#f87171;margin-top:12px;display:none}
 </style>
 </head>
 
 <body>
-
-<!-- LOGIN -->
-
 <div id="login" class="login">
-
-  <h2>🔐 Panel de administrador</h2>
-
-  <p>
-    Ingresa la clave para acceder a las solicitudes.
-  </p>
-
-  <input
-    id="adminKey"
-    type="password"
-    placeholder="Clave de administrador"
-    autocomplete="off"
-  >
-
-  <button onclick="login()">
-    🔓 Entrar
-  </button>
-
-  <div id="loginError" class="login-error">
-    ❌ Clave incorrecta.
-  </div>
-
+  <h2>🔐 Administrador · RADIO MILENIAL</h2>
+  <p>Ingresa la clave para acceder a las solicitudes.</p>
+  <input id="adminKey" type="password" placeholder="Clave de administrador" autocomplete="current-password">
+  <button id="loginButton" type="button">🔓 Entrar</button>
+  <div id="loginError" class="login-error"></div>
 </div>
 
-
-<!-- PANEL -->
-
-<div id="panel" class="container" style="display:none;">
-
-<h1>🎙️ Solicitudes en vivo</h1>
-
-<div class="subtitle">
-Panel de moderación · Emisora Nueva Zelandia
+<div id="panel" class="container" style="display:none">
+  <h1>🎙️ RADIO MILENIAL</h1>
+  <div class="subtitle">Panel de moderación · Solicitudes en vivo</div>
+  <div id="requests"></div>
+  <div class="refresh">El panel se actualiza automáticamente cada 4 segundos.</div>
 </div>
-
-<div id="requests"></div>
-
-<div class="refresh">
-El panel se actualiza automáticamente cada 4 segundos.
-</div>
-
-</div>
-
 
 <script>
-
-/* =========================
-   AUTENTICACIÓN
-========================= */
-
+const API_URL = "";
 let adminKey = sessionStorage.getItem("adminKey");
 
+const loginBox = document.querySelector("#login");
+const panel = document.querySelector("#panel");
+const loginError = document.querySelector("#loginError");
+const adminInput = document.querySelector("#adminKey");
+const requestsBox = document.querySelector("#requests");
 
-function login(){
+function showLoginError(text) {
+  loginError.textContent = text;
+  loginError.style.display = "block";
+}
 
-  const input = document.querySelector("#adminKey");
-  const error = document.querySelector("#loginError");
+function login() {
+  const key = adminInput.value.trim();
 
-  const key = input.value.trim();
-
-  if(!key){
-    error.textContent = "⚠️ Escribe la clave.";
-    error.style.display = "block";
+  if (!key) {
+    showLoginError("⚠️ Escribe la clave.");
     return;
   }
 
   adminKey = key;
-
-  sessionStorage.setItem("adminKey", adminKey);
-
-  document.querySelector("#login").style.display = "none";
-  document.querySelector("#panel").style.display = "block";
-
+  sessionStorage.setItem("adminKey", key);
+  loginError.style.display = "none";
+  loginBox.style.display = "none";
+  panel.style.display = "block";
   render();
 }
 
+document.querySelector("#loginButton").addEventListener("click", login);
+adminInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") login();
+});
 
-/* Si ya había iniciado sesión */
-
-if(adminKey){
-
-  document.querySelector("#login").style.display = "none";
-  document.querySelector("#panel").style.display = "block";
-
+function authHeaders(extra = {}) {
+  return { ...extra, "x-admin-key": adminKey };
 }
 
-
-/* =========================
-   ENCABEZADOS DE SEGURIDAD
-========================= */
-
-function authHeaders(extra = {}){
-
-  return {
-    ...extra,
-    "x-admin-key": adminKey
-  };
-
-}
-
-
-/* =========================
-   ESCAPAR TEXTO
-========================= */
-
-function esc(value){
-
+function esc(value) {
   return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
+async function render() {
+  if (!adminKey) return;
 
-/* =========================
-   MOSTRAR SOLICITUDES
-========================= */
-
-async function render(){
-
-  const container = document.querySelector("#requests");
-
-  try{
-
-    const response = await fetch(
-      "/api/requests",
-      {
-        headers: authHeaders()
-      }
-    );
-
-
-    /* CLAVE INCORRECTA */
-
-    if(response.status === 401){
-
-      sessionStorage.removeItem("adminKey");
-      adminKey = null;
-
-      document.querySelector("#panel").style.display = "none";
-      document.querySelector("#login").style.display = "block";
-
-      document.querySelector("#loginError").textContent =
-        "❌ La clave no es válida.";
-
-      document.querySelector("#loginError").style.display =
-        "block";
-
-      return;
-    }
-
-
-    if(!response.ok){
-
-      throw new Error(
-        "Error al obtener solicitudes"
-      );
-
-    }
-
-
-    const requests = await response.json();
-
-    container.innerHTML = "";
-
-
-    if(!requests.length){
-
-      container.innerHTML = `
-        <div class="empty">
-          🎵 No hay solicitudes todavía.
-        </div>
-      `;
-
-      return;
-
-    }
-
-
-    requests.slice().reverse().forEach(x => {
-
-      const d = document.createElement("div");
-
-      d.className = "request";
-
-      d.innerHTML = `
-
-        <div class="song">
-          🎵 ${esc(x.song)}
-        </div>
-
-        <div class="meta">
-          👤 ${esc(x.name || "Anónimo")}
-        </div>
-
-        ${
-          x.dedication
-          ? `<div class="meta">💌 ${esc(x.dedication)}</div>`
-          : ""
-        }
-
-        <div class="meta">
-          🕐 ${new Date(x.createdAt).toLocaleString()}
-        </div>
-
-        <div class="meta">
-          Estado:
-          <span class="status">
-            ${esc(x.status)}
-          </span>
-        </div>
-
-        <button
-          class="ok"
-          onclick="st('${esc(x.id)}','aprobada')"
-        >
-          ✅ Aprobar
-        </button>
-
-        <button
-          class="no"
-          onclick="st('${esc(x.id)}','rechazada')"
-        >
-          ❌ Rechazar
-        </button>
-
-        <button
-          class="del"
-          onclick="rm('${esc(x.id)}')"
-        >
-          🗑️ Eliminar
-        </button>
-
-      `;
-
-      container.appendChild(d);
-
+  try {
+    const response = await fetch(API_URL + "/api/requests", {
+      headers: authHeaders()
     });
 
-  }catch(error){
+    if (response.status === 401) {
+      sessionStorage.removeItem("adminKey");
+      adminKey = null;
+      panel.style.display = "none";
+      loginBox.style.display = "block";
+      showLoginError("❌ La clave no es válida.");
+      return;
+    }
 
-    container.innerHTML = `
+    if (!response.ok) throw new Error("Error al obtener solicitudes.");
+
+    const requests = await response.json();
+    requestsBox.innerHTML = "";
+
+    if (!requests.length) {
+      requestsBox.innerHTML = '<div class="empty">🎵 No hay solicitudes todavía.</div>';
+      return;
+    }
+
+    requests.forEach(x => {
+      const card = document.createElement("div");
+      card.className = "request";
+
+      const dateValue = x.created_at || x.createdAt;
+      const dateText = dateValue
+        ? new Date(dateValue).toLocaleString()
+        : "Fecha no disponible";
+
+      card.innerHTML = `
+        <div class="song">🎵 ${esc(x.song)}</div>
+        <div class="meta">🎤 Artista: ${esc(x.artist || "No indicado")}</div>
+        <div class="meta">👤 ${esc(x.name || "Anónimo")}</div>
+        ${x.dedication ? `<div class="meta">💌 ${esc(x.dedication)}</div>` : ""}
+        <div class="meta">🕐 ${esc(dateText)}</div>
+        <div class="meta">Estado: <span class="status">${esc(x.status || "pendiente")}</span></div>
+        <button class="ok" data-action="approve">✅ Aprobar</button>
+        <button class="no" data-action="reject">❌ Rechazar</button>
+        <button class="del" data-action="delete">🗑️ Eliminar</button>
+      `;
+
+      card.querySelector('[data-action="approve"]').addEventListener("click", () => updateStatus(x.id, "aprobada"));
+      card.querySelector('[data-action="reject"]').addEventListener("click", () => updateStatus(x.id, "rechazada"));
+      card.querySelector('[data-action="delete"]').addEventListener("click", () => removeRequest(x.id));
+
+      requestsBox.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error(error);
+    requestsBox.innerHTML = `
       <div class="empty">
-        ⚠️ No se pudieron cargar las solicitudes.
-        <br><br>
-        Comprueba que el servidor esté funcionando
-        y que la clave sea correcta.
-      </div>
-    `;
-
-    console.error(error);
-
+        ⚠️ No se pudieron cargar las solicitudes.<br><br>
+        Comprueba que el servidor y Supabase estén funcionando.
+      </div>`;
   }
-
 }
 
+async function updateStatus(id, status) {
+  try {
+    const response = await fetch(API_URL + "/api/requests/" + encodeURIComponent(id), {
+      method: "PATCH",
+      headers: authHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify({ status })
+    });
 
-/* =========================
-   APROBAR / RECHAZAR
-========================= */
-
-async function st(id,status){
-
-  try{
-
-    const response = await fetch(
-      "/api/requests/" + id,
-      {
-        method:"PATCH",
-
-        headers:authHeaders({
-          "Content-Type":"application/json"
-        }),
-
-        body:JSON.stringify({
-          status:status
-        })
-
-      }
-    );
-
-
-    if(response.status === 401){
-
-      alert("❌ Clave de administrador inválida.");
-
+    if (response.status === 401) {
       sessionStorage.removeItem("adminKey");
+      adminKey = null;
       location.reload();
-
       return;
-
     }
 
-
-    render();
-
-  }catch(error){
-
+    if (!response.ok) throw new Error("No se pudo actualizar.");
+    await render();
+  } catch (error) {
     console.error(error);
-
-    alert(
-      "⚠️ No se pudo actualizar la solicitud."
-    );
-
+    alert("⚠️ No se pudo actualizar la solicitud.");
   }
-
 }
 
+async function removeRequest(id) {
+  if (!confirm("¿Seguro que quieres eliminar esta solicitud?")) return;
 
-/* =========================
-   ELIMINAR
-========================= */
+  try {
+    const response = await fetch(API_URL + "/api/requests/" + encodeURIComponent(id), {
+      method: "DELETE",
+      headers: authHeaders()
+    });
 
-async function rm(id){
-
-  const confirmar = confirm(
-    "¿Seguro que quieres eliminar esta solicitud?"
-  );
-
-  if(!confirmar){
-    return;
-  }
-
-
-  try{
-
-    const response = await fetch(
-      "/api/requests/" + id,
-      {
-        method:"DELETE",
-
-        headers:authHeaders()
-
-      }
-    );
-
-
-    if(response.status === 401){
-
-      alert("❌ Clave de administrador inválida.");
-
+    if (response.status === 401) {
       sessionStorage.removeItem("adminKey");
+      adminKey = null;
       location.reload();
-
       return;
-
     }
 
-
-    render();
-
-  }catch(error){
-
+    if (!response.ok) throw new Error("No se pudo eliminar.");
+    await render();
+  } catch (error) {
     console.error(error);
-
-    alert(
-      "⚠️ No se pudo eliminar la solicitud."
-    );
-
+    alert("⚠️ No se pudo eliminar la solicitud.");
   }
-
 }
 
-
-/* =========================
-   CARGA AUTOMÁTICA
-========================= */
-
-if(adminKey){
+if (adminKey) {
+  loginBox.style.display = "none";
+  panel.style.display = "block";
   render();
 }
 
 setInterval(() => {
-
-  if(adminKey){
-    render();
-  }
-
-},4000);
-
+  if (adminKey) render();
+}, 4000);
 </script>
-
 </body>
 </html>
